@@ -1,0 +1,12 @@
+.app {
+  background-color: #f3f3f3;
+}
+
+.app__content {
+  margin: 0 auto;
+  min-width: 375px;
+  max-width: 1440px;
+  font-family: "CabinetGrotesk-bold";
+  font-weight: 500;
+  line-height: 1.2;
+}
