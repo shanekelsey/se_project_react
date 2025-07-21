@@ -1,9 +1,9 @@
 import "./ItemModal.css";
 import closeButton from "../../assets/close-btn-light.png";
 
-function ItemModal({ activeModal, handleCloseModal, card }) {
+function ItemModal({ activeModal, handleCloseModal, card, isOpen }) {
   return (
-    <div className={`modal ${activeModal === "preview" && "modal_opened"}`}>
+    <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal__content modal__content_type_image">
         <button
           onClick={handleCloseModal}
@@ -12,7 +12,7 @@ function ItemModal({ activeModal, handleCloseModal, card }) {
         >
           <img src={closeButton} alt="close" className="modal__close-icon" />
         </button>
-        <img src={card.link} alt="" className="modal__image" />
+        <img src={card.link} alt={card.name} className="modal__image" />
         <div className="modal__footer">
           <h2 className="modal__caption">{card.name}</h2>
           <p className="modal__weather">Weather: {card.weather}</p>
