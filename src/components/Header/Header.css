@@ -5,6 +5,7 @@
   font-weight: bold;
   font-size: 20px;
   line-height: 24px;
+  justify-content: space-between;
 }
 
 .header__add-clothes-btn {
@@ -28,8 +29,19 @@
   margin: 0;
 }
 
+.header__wrapper-left {
+  display: flex;
+  align-items: center;
+}
+
+.header__wrapper-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .header__add-clothes-btn {
-  margin: 0 20px 0 auto;
+  margin: 0;
 }
 
 .header__user-container {
