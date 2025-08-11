@@ -1,0 +1,19 @@
+.clothes-section__items {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 21px;
+}
+
+.clothes-section__title {
+  display: flex;
+  gap: 20px;
+}
+
+.clothes-section__button {
+  border: none;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.6);
+}

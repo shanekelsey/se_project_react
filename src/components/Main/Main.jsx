@@ -2,7 +2,6 @@ import "./Main.css";
 import WeatherCard from "../WeatherCard/WeatherCard";
 import { defaultClothingItems } from "../../utils/constants";
 import ItemCard from "../ItemCard/ItemCard";
-import Footer from "../Footer/Footer";
 import { useContext } from "react";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
@@ -32,7 +31,6 @@ function Main({ weatherData, handleCardClick, clothingItems }) {
             })}
         </ul>
       </section>
-      <Footer />
     </main>
   );
 }

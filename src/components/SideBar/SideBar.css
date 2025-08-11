@@ -1,0 +1,21 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 56px;
+  width: 229px;
+}
+.sidebar__username {
+  font-size: 20px;
+  line-height: 24.8px;
+  font-weight: 700;
+}
+.sidebar__avatar {
+  width: 56px;
+  height: 56px;
+}
+.sidebar__user-info {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
