@@ -1,0 +1,36 @@
+.confirm-delete {
+  margin-top: 32px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.deleteModal__delete-btn {
+  margin-top: 0;
+  margin-bottom: 0;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  background-color: white;
+  color: #ff4d00;
+  cursor: pointer;
+}
+
+.deleteModal__confirmation {
+  margin: 0;
+}
+
+.deleteModal__cancel {
+  margin-top: 24px;
+}
+
+.deleteModal__cancel-btn {
+  margin: 0;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
