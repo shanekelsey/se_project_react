@@ -1,12 +1,12 @@
 const baseUrl = "http://localhost:3001";
 const baseHeaders = { "content-type": "application/json" };
 
-function _checkRes(res) {
+function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
 }
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then(_checkRes);
+  return fetch(`${baseUrl}/items`).then(checkResponse);
 }
 
 function postItem(name, imageUrl, weather) {
@@ -14,14 +14,14 @@ function postItem(name, imageUrl, weather) {
     method: "POST",
     headers: baseHeaders,
     body: JSON.stringify({ name, imageUrl, weather }),
-  }).then(_checkRes);
+  }).then(checkResponse);
 }
 
 function deleteItem(id) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: baseHeaders,
-  }).then(_checkRes);
+  }).then(checkResponse);
 }
 
-export { getItems, postItem, deleteItem };
+export { getItems, postItem, deleteItem, checkResponse };

@@ -19,7 +19,7 @@ function ModalWithForm({
           type="button"
           className="modal__close"
         >
-          <img className="modal_close-img" src={closeButton} alt="close" />
+          <img className="modal__close-img" src={closeButton} alt="close" />
         </button>
         <form onSubmit={onSubmit} className="modal__form" action="">
           {children}

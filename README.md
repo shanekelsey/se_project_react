@@ -9,11 +9,13 @@ that are recommended to be worn. If the conditions are cold A jacket would be re
 
 This project was made using:
 
-Figma
-VSCode
-GitHub
-HTML
-CSS
-Javascript
-React
-Vite
+- Figma
+- VSCode
+- GitHub
+- HTML
+- CSS
+- Javascript
+- React
+- Vite
+- json-server
+- react-router-dom
