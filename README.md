@@ -19,3 +19,5 @@ This project was made using:
 - Vite
 - json-server
 - react-router-dom
+
+link to backend repository [text](https://github.com/shanekelsey/se_project_express)

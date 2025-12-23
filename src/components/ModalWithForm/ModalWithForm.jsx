@@ -4,6 +4,7 @@ import closeButton from "../../assets/close-btn-dark.png";
 function ModalWithForm({
   children,
   buttonText,
+  // alternativeButtonText,
   title,
   activeModal,
   handleCloseModal,
