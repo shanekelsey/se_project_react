@@ -20,4 +20,4 @@ This project was made using:
 - json-server
 - react-router-dom
 
-link to backend repository [text](https://github.com/shanekelsey/se_project_express)
+link to backend repository [se_project_express](https://github.com/shanekelsey/se_project_express)
