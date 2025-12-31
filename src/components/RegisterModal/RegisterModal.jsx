@@ -76,7 +76,7 @@ function RegisterModal({ isOpen, closeModal, activeModal }) {
         />
       </label>
       <label htmlFor="register-avatar" className="modal__label">
-        AvatarURL
+        Avatar URL
         <input
           type="url"
           className="modal__input"
