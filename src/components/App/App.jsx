@@ -16,8 +16,10 @@ import { getItems, postItem, deleteItem } from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
-import ProtectedRoute from "../../ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import * as auth from "../../utils/auth";
+import { getToken, setToken } from "../../utils/token.js";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -30,7 +32,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const [currentUser, setCurrentUser] = useState({});
 
   const handleToggleSwitchChange = () => {
@@ -60,6 +62,13 @@ function App() {
     setActiveModal("login");
   };
 
+  const handleLogoutClick = (event) => {
+    event.preventDefault();
+    localStorage.removeItem("jwt");
+    setCurrentUser({});
+    setIsLoggedIn(false);
+  };
+
   const closeModal = () => {
     setActiveModal("");
   };
@@ -84,6 +93,27 @@ function App() {
       })
       .catch(console.error);
   }
+
+  const handleRegistration = ({ email, password, name, avatar }) => {
+    auth.register(email, password, name, avatar).then((data) => {
+      handleLogin({ email, password });
+    });
+  };
+
+  const handleLogin = ({ email, password }) => {
+    auth.authorize(email, password).then((data) => {
+      setToken(data.token);
+
+      auth
+        .validateLogin(data.token)
+        .then((data) => {
+          setCurrentUser(data.user);
+          setIsLoggedIn(true);
+          closeModal();
+        })
+        .catch(console.error);
+    });
+  };
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -172,6 +202,7 @@ function App() {
           isOpen={activeModal === "register"}
           activeModal={activeModal}
           closeModal={closeModal}
+          handleRegistration={handleRegistration}
         />
       </CurrentUserContext.Provider>
     </CurrentTemperatureUnitContext.Provider>

@@ -2,13 +2,17 @@ import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 
-function RegisterModal({ isOpen, closeModal, activeModal }) {
+function RegisterModal({
+  isOpen,
+  closeModal,
+  activeModal,
+  handleRegistration,
+}) {
   const [data, setData] = useState({
-    username: "",
-    avatar: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    name: "",
+    avatar: "",
   });
 
   const handleChange = (event) => {
@@ -21,7 +25,7 @@ function RegisterModal({ isOpen, closeModal, activeModal }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(data);
+    handleRegistration(data);
   };
 
   return (
@@ -31,7 +35,7 @@ function RegisterModal({ isOpen, closeModal, activeModal }) {
       title="Sign Up"
       isOpen={isOpen}
       handleCloseModal={closeModal}
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       // onAlternative={onAlternative}
     >
       <label htmlFor="register-email" className="modal__label">
@@ -70,7 +74,7 @@ function RegisterModal({ isOpen, closeModal, activeModal }) {
           minLength="2"
           maxLength="30"
           type="text"
-          value={data.username}
+          value={data.name}
           onChange={handleChange}
           className="modal__input"
         />
@@ -88,21 +92,6 @@ function RegisterModal({ isOpen, closeModal, activeModal }) {
           required
         />
       </label>
-      {/*
-      <label htmlFor="register-confirmPassword" className="modal__label">
-        Confirm Password
-        <input
-          type="password"
-          className="modal__input"
-          id="register-confirmPassword"
-          name="confirmPassword"
-          placeholder="Password"
-          value={data.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-      </label>
-      */}
     </ModalWithForm>
   );
 }
