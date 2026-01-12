@@ -32,7 +32,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
   const handleToggleSwitchChange = () => {
@@ -107,6 +107,7 @@ function App() {
       auth
         .validateLogin(data.token)
         .then((data) => {
+          console.log(data);
           setCurrentUser(data.user);
           setIsLoggedIn(true);
           closeModal();
@@ -144,6 +145,7 @@ function App() {
               handleLoginClick={handleLoginClick}
               handleRegisterClick={handleRegisterClick}
               weatherData={weatherData}
+              isLoggedIn={isLoggedIn}
             />
             <Routes>
               <Route
@@ -197,6 +199,7 @@ function App() {
           isOpen={activeModal === "login"}
           activeModal={activeModal}
           closeModal={closeModal}
+          handleLogin={handleLogin}
         />
         <RegisterModal
           isOpen={activeModal === "register"}

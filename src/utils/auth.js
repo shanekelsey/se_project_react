@@ -31,6 +31,8 @@ const validateLogin = (token) => {
       authorization: `Bearer ${token}`,
     },
   };
+
+  return request(url, options);
 };
 
 export { register, authorize, validateLogin };

@@ -9,6 +9,7 @@ function Header({
   handleRegisterClick,
   handleLoginClick,
   weatherData,
+  isLoggedIn,
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -21,14 +22,15 @@ function Header({
         <Link to="/">
           <img className="header__logo" src={logo} alt="logo" />
         </Link>
+
         <p className="header__date-and-location">
           {currentDate}, {weatherData.city}
         </p>
       </div>
       <div className="header__wrapper-right">
         <ToggleSwitch />
-        {/*
-
+        {isLoggedIn ? (
+          <>
         <button
           onClick={handleAddClick}
           type="button"
@@ -46,7 +48,9 @@ function Header({
             />
           </div>
         </Link>
-        */}
+        </>
+        ) : (
+          <>
         <button
           onClick={handleRegisterClick}
           className="header__signup-button"
@@ -61,6 +65,8 @@ function Header({
         >
           Log In
         </button>
+        </>
+        )}
       </div>
     </header>
   );

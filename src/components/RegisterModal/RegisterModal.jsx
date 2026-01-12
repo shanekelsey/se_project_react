@@ -8,13 +8,14 @@ function RegisterModal({
   activeModal,
   handleRegistration,
 }) {
+  // Dec;are the state for the Register form
   const [data, setData] = useState({
     email: "",
     password: "",
     name: "",
     avatar: "",
   });
-
+  // Evt hander for the input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
     setData((previousData) => ({
@@ -22,7 +23,7 @@ function RegisterModal({
       [name]: value,
     }));
   };
-
+  //
   const handleSubmit = (event) => {
     event.preventDefault();
     handleRegistration(data);
