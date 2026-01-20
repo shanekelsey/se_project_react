@@ -1,7 +1,7 @@
 import closeButton from "../../assets/close-btn-dark.png";
 import "../DeleteModal/DeleteModal.css";
 
-function DeleteModal({ isOpen, handleCloseModal, onDelete, card }) {
+function DeleteModal({ isOpen, handleCloseModal, onDelete }) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal__content">

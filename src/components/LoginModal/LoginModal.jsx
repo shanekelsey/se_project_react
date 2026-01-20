@@ -18,7 +18,6 @@ function LoginModal({ closeModal, activeModal, isOpen, handleLogin }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleLogin(data);
-    console.log("Logging in")
   };
 
   return (

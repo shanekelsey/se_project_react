@@ -17,9 +17,10 @@ import DeleteModal from "../DeleteModal/DeleteModal";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import * as auth from "../../utils/auth";
 import { getToken, setToken } from "../../utils/token.js";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -34,6 +35,8 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -75,8 +78,8 @@ function App() {
 
   const handleAddItemModalSubmit = ({ name, image, weather }) => {
     postItem(name, image, weather)
-      .then((data) => {
-        setClothingItems((prev) => [data, ...prev]);
+      .then((res) => {
+        setClothingItems((prev) => [res.data, ...clothingItems]);
         closeModal();
       })
       .catch(console.error);
@@ -86,7 +89,7 @@ function App() {
     deleteItem(selectedCard._id)
       .then(() => {
         const filteredArray = clothingItems.filter(
-          (item) => item !== selectedCard
+          (item) => item !== selectedCard,
         );
         setClothingItems(filteredArray);
         closeModal();
@@ -106,9 +109,8 @@ function App() {
 
       auth
         .validateLogin(data.token)
-        .then((data) => {
-          console.log(data);
-          setCurrentUser(data.user);
+        .then((res) => {
+          setCurrentUser(res.data);
           setIsLoggedIn(true);
           closeModal();
         })
@@ -133,11 +135,29 @@ function App() {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    const jwt = getToken();
+
+    if (!jwt) {
+      return;
+    }
+
+    auth
+      .validateLogin(jwt)
+      .then((res) => {
+        setCurrentUser(res.data);
+        setIsLoggedIn(true);
+        const redirectPath = location.state?.from?.pathname || "/";
+        navigate(redirectPath);
+      })
+      .catch(console.error);
+  }, []);
+
   return (
-    <CurrentTemperatureUnitContext.Provider
-      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
-    >
-      <CurrentUserContext.Provider value={{ currentUser, isLoggedIn }}>
+    <CurrentUserContext.Provider value={{ currentUser, isLoggedIn }}>
+      <CurrentTemperatureUnitContext.Provider
+        value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+      >
         <div className="app">
           <div className="app__content">
             <Header
@@ -166,10 +186,12 @@ function App() {
                       onCardClick={handleCardClick}
                       handleAddClick={handleAddClick}
                       clothingItems={clothingItems}
+                      handleLogoutClick={handleLogoutClick}
                     />
                   </ProtectedRoute>
                 }
               />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer />
           </div>
@@ -207,8 +229,8 @@ function App() {
           closeModal={closeModal}
           handleRegistration={handleRegistration}
         />
-      </CurrentUserContext.Provider>
-    </CurrentTemperatureUnitContext.Provider>
+      </CurrentTemperatureUnitContext.Provider>
+    </CurrentUserContext.Provider>
   );
 }
 

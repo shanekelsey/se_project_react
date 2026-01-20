@@ -1,3 +1,5 @@
+import { getToken } from "./token";
+
 const baseUrl = "http://localhost:3001";
 const baseHeaders = { "content-type": "application/json" };
 
@@ -10,21 +12,37 @@ const request = (url, options) => {
 };
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then(checkResponse);
+  return fetch(`${baseUrl}/items`)
+    .then(checkResponse)
+    .then((data) => {
+      return data;
+    });
 }
 
 function postItem(name, imageUrl, weather) {
+  const token = getToken();
+  if (!token) { return Promise.reject("Unauthorized"); }
+
   return fetch(`${baseUrl}/items`, {
     method: "POST",
-    headers: baseHeaders,
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ name, imageUrl, weather }),
   }).then(checkResponse);
 }
 
-function deleteItem(id) {
-  return fetch(`${baseUrl}/items/${id}`, {
+function deleteItem(_id) {
+  const token = getToken();
+  if (!token) { return Promise.reject("Unauthorized"); }
+
+  return fetch(`${baseUrl}/items/${_id}`, {
     method: "DELETE",
-    headers: baseHeaders,
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   }).then(checkResponse);
 }
 

@@ -7,7 +7,10 @@ function ItemCard({ item, onCardClick }) {
 
   return (
     <li className="card">
-      <h2 className="card__name">{item.name}</h2>
+      <div className="card__title">
+        <h2 className="card__name">{item.name}</h2>
+        <button type="button" className="card__like-toggle card__like-toggle_unliked"></button>
+      </div>
       <img
         onClick={handleCardClick}
         className="card__image"
