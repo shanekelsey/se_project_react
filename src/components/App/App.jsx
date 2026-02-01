@@ -12,7 +12,7 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
-import { getItems, postItem, deleteItem } from "../../utils/api";
+import { getItems, postItem, deleteItem, likeClothes, unlikeClothes } from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
@@ -21,6 +21,8 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import * as auth from "../../utils/auth";
 import { getToken, setToken } from "../../utils/token.js";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import EditProfileModal from "../EditProfileModal/EditProfileModa.jsx";
+import { updateUser } from "../../utils/api.js";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -56,6 +58,11 @@ function App() {
   const handleRegisterClick = (event) => {
     event.preventDefault();
     setActiveModal("register");
+  };
+
+  const handleEditProfileClick = (event) => {
+    event.preventDefault();
+    setActiveModal("edit-profile");
   };
 
   const handleLoginClick = (event) => {
@@ -116,6 +123,43 @@ function App() {
     });
   };
 
+  const handleToggleLike = ({ id, isLiked }) => {
+    isLiked
+      ? unlikeClothes(id)
+          .then((updatedGarment) => {
+            setClothingItems((cards) =>
+              cards.map((item) =>
+                item._id === id ? updatedGarment.clothingItem : item
+              )
+            );
+          })
+          .catch(console.error)
+      : likeClothes(id)
+          .then((updatedGarment) => {
+            setClothingItems((cards) =>
+              cards.map((item) =>
+                item._id === id ? updatedGarment.clothingItem : item
+              )
+            );
+          })
+          .catch(console.error);
+  };
+
+  const handleEditProfile = ({ username, avatar }) => {
+    updateUser(username, avatar)
+      .then((data) => {
+        const updatedUser = currentUser;
+        updatedUser.name = data.name;
+        updatedUser.avatar = data.avatar;
+
+        setCurrentUser(updatedUser);
+
+        closeModal();
+      })
+      .catch(console.error);
+  };
+
+
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
@@ -171,6 +215,7 @@ function App() {
                     weatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
+                    onToggleLike={handleToggleLike}
                   />
                 }
               />
@@ -183,6 +228,7 @@ function App() {
                       handleAddClick={handleAddClick}
                       clothingItems={clothingItems}
                       handleLogoutClick={handleLogoutClick}
+                      handleEditProfileClick={handleEditProfileClick}
                     />
                   </ProtectedRoute>
                 }
@@ -224,6 +270,12 @@ function App() {
           activeModal={activeModal}
           closeModal={closeModal}
           handleRegistration={handleRegistration}
+        />
+        <EditProfileModal 
+        isOpen={activeModal === "edit-profile"}
+        activeModal={activeModal}
+        onSubmit = {handleEditProfile}
+        closeModal={closeModal}
         />
       </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>

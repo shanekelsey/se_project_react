@@ -1,3 +1,4 @@
+import { json } from "react-router-dom";
 import { getToken } from "./token";
 
 const baseUrl = "http://localhost:3001";
@@ -21,7 +22,9 @@ function getItems() {
 
 function postItem(name, imageUrl, weather) {
   const token = getToken();
-  if (!token) { return Promise.reject("Unauthorized"); }
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
 
   return fetch(`${baseUrl}/items`, {
     method: "POST",
@@ -35,9 +38,54 @@ function postItem(name, imageUrl, weather) {
 
 function deleteItem(_id) {
   const token = getToken();
-  if (!token) { return Promise.reject("Unauthorized"); }
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
 
   return fetch(`${baseUrl}/items/${_id}`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+}
+
+function updateUser(name, avatar) {
+  const token = getToken();
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
+  return fetch(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name, avatar }),
+  }).then(checkResponse);
+}
+
+function likeClothes(id) {
+  const token = getToken();
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
+  return fetch(`${baseUrl}/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(checkResponse);
+}
+
+function unlikeClothes(id) {
+  const token = getToken();
+  if (!token) {
+    return Promise.reject("Unauthorized");
+  }
+  return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       "content-type": "application/json",
@@ -50,6 +98,9 @@ export {
   getItems,
   postItem,
   deleteItem,
+  updateUser,
+  likeClothes,
+  unlikeClothes,
   checkResponse,
   request,
   baseUrl,

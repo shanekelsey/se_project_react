@@ -44,8 +44,8 @@ function Header({
           <div className="header__user-container">
             <p className="header__username">{currentUser.name}</p>
             <img
-              src={avatar}
-              alt="Terrence Tegegne"
+              src={currentUser.avatar}
+              alt="avatar"
               className="header__avatar"
             />
           </div>
