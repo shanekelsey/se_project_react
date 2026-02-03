@@ -1,9 +1,8 @@
 import "./ItemModal.css";
 import closeButton from "../../assets/close-btn-light.png";
-import deleteItem from "../../assets/Delete Item.png";
+import deleteItem from "../../assets/Delete item.png";
 
 function ItemModal({
-  activeModal,
   handleCloseModal,
   handleDeleteClick,
   card,
@@ -23,6 +22,7 @@ function ItemModal({
         <div className="modal__footer">
           <div className="modal__name-delete">
             <h2 className="modal__caption">{card.name}</h2>
+            
             <button
               onClick={handleDeleteClick}
               className="modal__delete-button"

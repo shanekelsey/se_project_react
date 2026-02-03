@@ -12,7 +12,13 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
-import { getItems, postItem, deleteItem, likeClothes, unlikeClothes } from "../../utils/api";
+import {
+  getItems,
+  postItem,
+  deleteItem,
+  likeClothes,
+  unlikeClothes,
+} from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import LoginModal from "../LoginModal/LoginModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
@@ -20,7 +26,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import * as auth from "../../utils/auth";
 import { getToken, setToken } from "../../utils/token.js";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
 import { updateUser } from "../../utils/api.js";
 
@@ -37,6 +43,8 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+
+  const navigate = useNavigate();
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -94,7 +102,7 @@ function App() {
     deleteItem(selectedCard._id)
       .then(() => {
         const filteredArray = clothingItems.filter(
-          (item) => item !== selectedCard,
+          (item) => item._id !== selectedCard._id,
         );
         setClothingItems(filteredArray);
         closeModal();
@@ -118,6 +126,7 @@ function App() {
           setCurrentUser(res.data);
           setIsLoggedIn(true);
           closeModal();
+          navigate("/");
         })
         .catch(console.error);
     });
@@ -127,21 +136,19 @@ function App() {
     isLiked
       ? unlikeClothes(id)
           .then((updatedGarment) => {
-            console.log(">>", updatedGarment.clothingItem);
             setClothingItems((cards) =>
               cards.map((item) =>
-                item._id === id ? updatedGarment.data : item
-              )
+                item._id === id ? updatedGarment.data : item,
+              ),
             );
-            console.log(2);
           })
           .catch(console.error)
       : likeClothes(id)
           .then((updatedGarment) => {
             setClothingItems((cards) =>
               cards.map((item) =>
-                item._id === id ? updatedGarment.data : item
-              )
+                item._id === id ? updatedGarment.data : item,
+              ),
             );
           })
           .catch(console.error);
@@ -160,7 +167,6 @@ function App() {
       })
       .catch(console.error);
   };
-
 
   useEffect(() => {
     getWeather(coordinates, APIkey)
@@ -241,20 +247,17 @@ function App() {
           </div>
           <AddItemModal
             isOpen={activeModal === "add-garment"}
-            activeModal={activeModal}
             closeModal={closeModal}
             onAddItemModalSubmit={handleAddItemModalSubmit}
           />
           <ItemModal
             isOpen={activeModal === "preview"}
-            activeModal={activeModal}
             card={selectedCard}
             handleCloseModal={closeModal}
             handleDeleteClick={handleDeleteClick}
           />
         </div>
         <DeleteModal
-          Delete={handleDeleteClick}
           isOpen={activeModal === "delete"}
           card={selectedCard}
           onDelete={handleCardDelete}
@@ -273,11 +276,11 @@ function App() {
           closeModal={closeModal}
           handleRegistration={handleRegistration}
         />
-        <EditProfileModal 
-        isOpen={activeModal === "edit-profile"}
-        activeModal={activeModal}
-        onSubmit = {handleEditProfile}
-        closeModal={closeModal}
+        <EditProfileModal
+          isOpen={activeModal === "edit-profile"}
+          activeModal={activeModal}
+          onSubmit={handleEditProfile}
+          closeModal={closeModal}
         />
       </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>

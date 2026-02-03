@@ -1,4 +1,3 @@
-import { json } from "react-router-dom";
 import { getToken } from "./token";
 
 const baseUrl = "http://localhost:3001";
