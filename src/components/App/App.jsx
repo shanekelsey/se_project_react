@@ -21,7 +21,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import * as auth from "../../utils/auth";
 import { getToken, setToken } from "../../utils/token.js";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import EditProfileModal from "../EditProfileModal/EditProfileModa.jsx";
+import EditProfileModal from "../EditProfileModal/EditProfileModal.jsx";
 import { updateUser } from "../../utils/api.js";
 
 function App() {
@@ -127,30 +127,32 @@ function App() {
     isLiked
       ? unlikeClothes(id)
           .then((updatedGarment) => {
+            console.log(">>", updatedGarment.clothingItem);
             setClothingItems((cards) =>
               cards.map((item) =>
-                item._id === id ? updatedGarment.clothingItem : item
+                item._id === id ? updatedGarment.data : item
               )
             );
+            console.log(2);
           })
           .catch(console.error)
       : likeClothes(id)
           .then((updatedGarment) => {
             setClothingItems((cards) =>
               cards.map((item) =>
-                item._id === id ? updatedGarment.clothingItem : item
+                item._id === id ? updatedGarment.data : item
               )
             );
           })
           .catch(console.error);
   };
 
-  const handleEditProfile = ({ username, avatar }) => {
-    updateUser(username, avatar)
+  const handleEditProfile = ({ name, avatar }) => {
+    updateUser(name, avatar)
       .then((data) => {
         const updatedUser = currentUser;
-        updatedUser.name = data.name;
-        updatedUser.avatar = data.avatar;
+        updatedUser.name = data.data.name;
+        updatedUser.avatar = data.data.avatar;
 
         setCurrentUser(updatedUser);
 

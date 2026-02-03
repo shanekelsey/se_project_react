@@ -6,7 +6,7 @@ function EditProfileModal({ closeModal, activeModal, onSubmit }) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const [data, setData] = useState({
-    username: "",
+    name: "",
     avatar: "",
   });
 
@@ -19,13 +19,13 @@ function EditProfileModal({ closeModal, activeModal, onSubmit }) {
   };
 
   const handleSubmit = (event) => {
-    //event.preventDefault();
+    event.preventDefault();
     onSubmit(data);
   };
 
   useEffect(() => {
     setData({
-      username: currentUser.name || "",
+      name: currentUser.name || "",
       avatar: currentUser.avatar || "",
     });
   }, [currentUser]);
@@ -38,11 +38,11 @@ function EditProfileModal({ closeModal, activeModal, onSubmit }) {
       handleCloseModal={closeModal}
       onSubmit={handleSubmit}
     >
-      <label htmlFor="username" className="modal__label">
+      <label htmlFor="name" className="modal__label">
         Name
         <input
-          id="username"
-          name="username"
+          id="name"
+          name="name"
           required
           placeholder="Name"
           minLength="2"
