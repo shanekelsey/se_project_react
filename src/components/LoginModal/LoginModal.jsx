@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./LoginModal.css";
+import useForm from "../../Hooks/useForm";
 
-function LoginModal({ closeModal, activeModal, isOpen, handleLogin }) {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
+function LoginModal({ closeModal, activeModal, isOpen, handleLogin, onAlternative }) {
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setData((previousData) => ({
-      ...previousData,
-      [name]: value,
-    }));
-  };
+const inputValues = {
+  email: "",
+  password: "",
+}
+
+const { values, handleChange, setValues, resetForm } = useForm(inputValues);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleLogin(data);
+    handleLogin(values);
   };
+
+ useEffect(() => {
+    resetForm(inputValues);
+  }, [isOpen]);
+
 
   return (
     <ModalWithForm
@@ -28,6 +30,8 @@ function LoginModal({ closeModal, activeModal, isOpen, handleLogin }) {
       activeModal={activeModal}
       handleCloseModal={closeModal}
       onSubmit={handleSubmit}
+      alternativeButtonText="or Sign Up"
+      onAlternative={onAlternative}
     >
       <label htmlFor="email" className="modal__label">
         Email
@@ -37,7 +41,7 @@ function LoginModal({ closeModal, activeModal, isOpen, handleLogin }) {
           id="email"
           name="email"
           placeholder="Email"
-          value={data.email}
+          value={values.email}
           onChange={handleChange}
           required
         />
@@ -50,7 +54,7 @@ function LoginModal({ closeModal, activeModal, isOpen, handleLogin }) {
           id="password"
           name="password"
           placeholder="Password"
-          value={data.password}
+          value={values.password}
           onChange={handleChange}
           required
         />

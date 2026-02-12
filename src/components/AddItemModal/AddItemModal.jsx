@@ -1,37 +1,28 @@
 import "./AddItemModal.css";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import useForm from "../../Hooks/useForm";
 
 export default function AddItemModal({
   isOpen,
   closeModal,
   onAddItemModalSubmit,
 }) {
-  const [name, setName] = useState("");
-  const [image, setImage] = useState("");
-  const [weather, setWeather] = useState("");
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
+  const inputValues = {
+    name: "",
+    image: "",
+    weather: "",
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.value);
-  };
-
-  const handleWeatherChange = (e) => {
-    setWeather(e.target.value);
-  };
+  const { values, handleChange, resetForm } = useForm(inputValues);
 
   useEffect(() => {
-    setName("");
-    setImage("");
-    setWeather("");
+    resetForm(inputValues);
   }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItemModalSubmit({ name, image, weather });
+    onAddItemModalSubmit(values);
   };
 
   return (
@@ -45,24 +36,26 @@ export default function AddItemModal({
       <label htmlFor="name" className="modal__label">
         Name{" "}
         <input
+          name="name"
           type="text"
           className="modal__input"
           id="name"
           placeholder="Name"
-          onChange={handleNameChange}
-          value={name}
+          onChange={handleChange}
+          value={values.name}
           required
         />
       </label>
       <label htmlFor="imageUrl" className="modal__label">
         Image{" "}
         <input
+          name="image"
           type="url"
           className="modal__input"
           id="imageUrl"
           placeholder="Image URL"
-          onChange={handleImageChange}
-          value={image}
+          onChange={handleChange}
+          value={values.image}
           required
         />
       </label>
@@ -71,36 +64,36 @@ export default function AddItemModal({
         <label htmlFor="hot" className="modal__label modal__label_type_radio">
           <input
             id="hot"
-            name="radio"
+            name="weather"
             type="radio"
             className="modal__radio-input"
             value="hot"
-            onChange={handleWeatherChange}
-            checked={weather === "hot"}
+            onChange={handleChange}
+            checked={values.weather === "hot"}
           />
           Hot
         </label>
         <label htmlFor="warm" className="modal__label modal__label_type_radio">
           <input
             id="warm"
-            name="radio"
+            name="weather"
             type="radio"
             className="modal__radio-input"
             value="warm"
-            onChange={handleWeatherChange}
-            checked={weather === "warm"}
+            onChange={handleChange}
+            checked={values.weather === "warm"}
           />
           Warm
         </label>
         <label htmlFor="cold" className="modal__label modal__label_type_radio">
           <input
             id="cold"
-            name="radio"
+            name="weather"
             type="radio"
             className="modal__radio-input"
             value="cold"
-            onChange={handleWeatherChange}
-            checked={weather === "cold"}
+            onChange={handleChange}
+            checked={values.weather === "cold"}
           />
           Cold
         </label>

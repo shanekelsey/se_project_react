@@ -113,7 +113,11 @@ function App() {
   const handleRegistration = ({ email, password, name, avatar }) => {
     auth.register(email, password, name, avatar).then((data) => {
       handleLogin({ email, password });
-    });
+    }).catch(console.error);
+  };
+
+   const handleAlternativeRegisterClick = () => {
+    setActiveModal("login");
   };
 
   const handleLogin = ({ email, password }) => {
@@ -130,6 +134,10 @@ function App() {
         })
         .catch(console.error);
     });
+  };
+
+    const handleAlternativeLoginClick = () => {
+    setActiveModal("register");
   };
 
   const handleToggleLike = ({ id, isLiked }) => {
@@ -237,6 +245,7 @@ function App() {
                       clothingItems={clothingItems}
                       handleLogoutClick={handleLogoutClick}
                       handleEditProfileClick={handleEditProfileClick}
+                      onToggleLike={handleToggleLike}
                     />
                   </ProtectedRoute>
                 }
@@ -269,12 +278,14 @@ function App() {
           activeModal={activeModal}
           closeModal={closeModal}
           handleLogin={handleLogin}
+          onAlternative={handleAlternativeLoginClick}
         />
         <RegisterModal
           isOpen={activeModal === "register"}
           activeModal={activeModal}
           closeModal={closeModal}
           handleRegistration={handleRegistration}
+          onAlternative={handleAlternativeRegisterClick}
         />
         <EditProfileModal
           isOpen={activeModal === "edit-profile"}

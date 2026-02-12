@@ -4,12 +4,13 @@ import closeButton from "../../assets/close-btn-dark.png";
 function ModalWithForm({
   children,
   buttonText,
-  // alternativeButtonText,
+  alternativeButtonText,
   title,
   activeModal,
   handleCloseModal,
   isOpen,
   onSubmit,
+  onAlternative
 }) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
@@ -24,9 +25,20 @@ function ModalWithForm({
         </button>
         <form onSubmit={onSubmit} className="modal__form" action="">
           {children}
-          <button type="submit" className="modal__submit">
-            {buttonText}
-          </button>
+          <div className="modal__button-container">
+            <button type="submit" className="modal__submit">
+              {buttonText}
+            </button>
+            {alternativeButtonText && (
+              <button
+                onClick={onAlternative}
+                className="modal__alternative"
+                type="button"
+              >
+                {alternativeButtonText}
+              </button>
+            )}
+          </div>
         </form>
       </div>
     </div>

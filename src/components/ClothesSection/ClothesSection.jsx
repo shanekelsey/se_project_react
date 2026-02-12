@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 
-function ClothesSection({ onCardClick, handleAddClick, clothingItems }) {
+function ClothesSection({ onCardClick, handleAddClick, clothingItems, onToggleLike }) {
    const { currentUser } = useContext(CurrentUserContext);
   return (
     <div className="clothes-section">
@@ -22,6 +22,7 @@ function ClothesSection({ onCardClick, handleAddClick, clothingItems }) {
                 key={item._id}
                 item={item}
                 onCardClick={onCardClick}
+                onToggleLike={onToggleLike}
               />
             );
           }

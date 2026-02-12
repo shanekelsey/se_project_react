@@ -1,34 +1,31 @@
 import { useContext, useEffect, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import useForm from "../../Hooks/useForm";
 
-function EditProfileModal({ closeModal, activeModal, onSubmit }) {
-  const { currentUser } = useContext(CurrentUserContext);
+function EditProfileModal({ closeModal, activeModal, onSubmit, isOpen }) {
+const { currentUser } = useContext(CurrentUserContext);
 
-  const [data, setData] = useState({
-    name: "",
-    avatar: "",
-  });
+const inputValues = {
+  name: "",
+  avatar: "",
+}
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setData((previousData) => ({
-      ...previousData,
-      [name]: value,
-    }));
-  };
+const { values, handleChange, setValues, resetForm } = useForm(inputValues);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onSubmit(data);
+    onSubmit(values);
   };
 
   useEffect(() => {
-    setData({
+    setValues({
       name: currentUser.name || "",
       avatar: currentUser.avatar || "",
     });
-  }, [currentUser]);
+  }, [currentUser, activeModal]);
+
+ 
 
   return (
     <ModalWithForm
@@ -48,7 +45,7 @@ function EditProfileModal({ closeModal, activeModal, onSubmit }) {
           minLength="2"
           maxLength="30"
           type="text"
-          value={data.name}
+          value={values.name}
           onChange={handleChange}
           className="modal__input"
         />
@@ -61,7 +58,7 @@ function EditProfileModal({ closeModal, activeModal, onSubmit }) {
           id="avatar"
           name="avatar"
           placeholder="Avatar URL"
-          value={data.avatar}
+          value={values.avatar}
           onChange={handleChange}
           required
         />
