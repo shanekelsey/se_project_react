@@ -11,7 +11,7 @@ const inputValues = {
   avatar: "",
 }
 
-const { values, handleChange, setValues, resetForm } = useForm(inputValues);
+const { values, handleChange, setValues } = useForm(inputValues);
 
   const handleSubmit = (event) => {
     event.preventDefault();

@@ -10,7 +10,7 @@ const inputValues = {
   password: "",
 }
 
-const { values, handleChange, setValues, resetForm } = useForm(inputValues);
+const { values, handleChange, resetForm } = useForm(inputValues);
 
   const handleSubmit = (event) => {
     event.preventDefault();
