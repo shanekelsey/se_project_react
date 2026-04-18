@@ -1,6 +1,8 @@
 import { getToken } from "./token";
 
-const baseUrl = "http://localhost:3001";
+const baseUrl = process.env.NODE_ENV === "production" 
+  ? "https://api.shanekelsey.port0.org"
+  : "http://localhost:3001";
 const baseHeaders = { "content-type": "application/json" };
 
 function checkResponse(res) {
