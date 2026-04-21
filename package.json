@@ -8,7 +8,8 @@
     "dev": "vite --open",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run buil && scp -r ./dist/* shanekelsey149@shanekelsey.port0.org:/home/shanekelsey149/frontend"
   },
   "dependencies": {
     "react": "^18.3.1",
